@@ -1,17 +1,17 @@
-package ru.startjava.projects.clock;
+package ru.startjava.projects;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-abstract class GraphicsCore extends JPanel implements ActionListener {
-    private final int delay = 10;
-    private final int width = 1_000;
-    private final int height = 700;
-    private Timer animationTimer; // timer controlling frame rate
+public abstract class GraphicsCore extends JPanel implements ActionListener {
+    private final int delay = 500;
+    private final int width = 240;
+    private final int height = 230;
+    private Timer animationTimer;
 
-    GraphicsCore() {
+    protected GraphicsCore() {
         setPreferredSize(new Dimension(width, height));
 
         this.animationTimer = new Timer(delay, this);
@@ -26,6 +26,8 @@ abstract class GraphicsCore extends JPanel implements ActionListener {
         g.fillRect(0, 0, getWidth(), getHeight());
 
         showGraphics(g);
+
+        System.out.println(this.getHeight());
     }
 
     protected abstract void showGraphics(Graphics graphics);
@@ -43,14 +45,11 @@ abstract class GraphicsCore extends JPanel implements ActionListener {
         animationTimer.stop();
     }
 
-    static void run() {
+    protected static void run(JPanel panel, String title) {
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                JFrame frame = new JFrame("Solar System");
+                JFrame frame = new JFrame(title);
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-                ClockPanel panel = new ClockPanel();
-
                 frame.add(panel);       // Add panel to frame
                 frame.pack();           // Set component sizes and layout
                 frame.setVisible(true); // Display the resulting frame
