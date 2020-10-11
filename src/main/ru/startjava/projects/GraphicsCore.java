@@ -4,16 +4,21 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
-public abstract class GraphicsCore extends JPanel implements ActionListener {
+public abstract class GraphicsCore extends JPanel implements ActionListener, MouseListener {
     private final int delay = 500;
-    private final int width = 240;
-    private final int height = 230;
+    private final int width = 293;
+    private final int height = 402;
     private Timer animationTimer;
+    protected boolean isMouseClicked;
+    protected int mousePosX;
+    protected int mousePosY;
 
     protected GraphicsCore() {
         setPreferredSize(new Dimension(width, height));
-
+        this.addMouseListener(this);
         this.animationTimer = new Timer(delay, this);
         animationTimer.start();
     }
@@ -26,8 +31,6 @@ public abstract class GraphicsCore extends JPanel implements ActionListener {
         g.fillRect(0, 0, getWidth(), getHeight());
 
         showGraphics(g);
-
-        System.out.println(this.getHeight());
     }
 
     protected abstract void showGraphics(Graphics graphics);
@@ -35,6 +38,31 @@ public abstract class GraphicsCore extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         repaint();
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        if (e.getButton() == MouseEvent.BUTTON1) {
+            isMouseClicked = true;
+            mousePosX = e.getX();
+            mousePosY = e.getY();
+        }
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
     }
 
     public void start() {
